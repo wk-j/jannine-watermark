@@ -2,9 +2,16 @@
 #addin "nuget:?package=Cake.Watch"
 #addin "MagicChunks"
 
+var user = EnvironmentVariable("ghu");
+var pass = EnvironmentVariable("ghp");
+
+var package = "Jannine.Watermark/bin/Debug/Jannine.Watermark.vsix";
+var assemblyInfo = "Jannine.Watermark/Properties/AssemblyInfo.cs";
+
+
 var solution = "Jannine.Watermark.sln";
-var testProj = @"Cake.Highlight.Tests/Cake.Highlight.Tests.csproj";
-var testDll = @"Cake.Highlight.tests/bin/Debug/Cake.Highlight.Tests.dll";
+var testProj = "";
+var testDll = "";
 
 Action<string,string> build = (proj, target) => {
     MSBuild(proj, new MSBuildSettings {
@@ -15,6 +22,35 @@ Action<string,string> build = (proj, target) => {
         PlatformTarget = PlatformTarget.MSIL
     }.WithTarget(target));
 };
+
+Task("Create-Github-Release")
+    .IsDependentOn("Build-Debug")
+    .Does(() => {
+        var asm = ParseAssemblyInfo(assemblyInfo);
+        var version = asm.AssemblyVersion;
+        var tag = string.Format("v{0}", version);
+        var args = string.Format("tag -a {0} -m \"{0}\"", tag);
+        var owner = "wk-j";
+        var repo = "jannine-watermark";
+
+        StartProcess("git", new ProcessSettings {
+            Arguments = args
+        });
+
+        StartProcess("git", new ProcessSettings {
+            Arguments = string.Format("push https://{0}:{1}@github.com/wk-j/{2}.git {3}", user, pass, repo, tag)
+        });
+
+        GitReleaseManagerCreate(user, pass, owner , repo, new GitReleaseManagerCreateSettings {
+            Name              = tag,
+            InputFilePath = "RELEASE.md",
+            Prerelease        = false,
+            TargetCommitish   = "master",
+        });
+        GitReleaseManagerAddAssets(user, pass, owner, repo, tag, package);
+        GitReleaseManagerPublish(user, pass, owner , repo, tag);
+    });
+
 
 Task("fixie")
     .Does(() => {
