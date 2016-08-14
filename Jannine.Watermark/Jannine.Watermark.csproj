@@ -55,8 +55,6 @@
     <Compile Include="Core\LogoAdornment.cs" />
     <Compile Include="Core\LogoLayer.cs" />
     <Compile Include="Core\LogoProvider.cs" />
-    <Compile Include="Hello\HelloAdornment.cs" />
-    <Compile Include="Hello\HelloAdornmentTextViewCreationListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

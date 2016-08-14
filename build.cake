@@ -42,6 +42,13 @@ Task("View-Log")
         StartProcess("notepad", new ProcessSettings { Arguments = path } );
     });
 
+Task("Delete-Log")
+    .Does(() => {
+        var path = @"C:\Users\wk\AppData\Roaming\Microsoft\VisualStudio\14.0Exp\ActivityLog.xml";
+        if(System.IO.File.Exists(path))
+            DeleteFile(path);
+    });
+
 Task("Build-Debug")
     .Does(() => {
         build(solution, "Build");

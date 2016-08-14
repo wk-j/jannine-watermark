@@ -38,7 +38,8 @@ namespace Jannine.Watermark.Core
         private void CreateImage(string imageName)
         {
             _adornment = new Image();
-            _adornment.Source = BitmapFrame.Create(new Uri("pack://application:,,,/Jannine.Watermark;component/_Shared/Resources/Watermarks/" + imageName, UriKind.RelativeOrAbsolute));
+            //_adornment.Source = BitmapFrame.Create(new Uri("pack://application:,,,/Jannine.Watermark;component/_Shared/Resources/Watermarks/" + imageName, UriKind.RelativeOrAbsolute));
+            _adornment.Source = BitmapFrame.Create(new Uri("http://www.jwofficial.com/wp-content/uploads/2013/12/IMG_20823-280x280.jpg"));
             _adornment.ToolTip = Resource.ClickToToggleVisibility;
             _adornment.Opacity = _currentOpacity;
             _adornment.SetValue(RenderOptions.BitmapScalingModeProperty, BitmapScalingMode.HighQuality);
