@@ -12,21 +12,22 @@ using Microsoft.VisualStudio.Utilities;
 namespace Jannine.Watermark.Core
 {
     [Export(typeof(IWpfTextViewCreationListener))]
-    [ContentType("json")]
-    [ContentType("javascript")]
+    [ContentType("code")]
     [TextViewRole(PredefinedTextViewRoles.Editable)]
     internal sealed class LogoProvider : IWpfTextViewCreationListener
     {
         private const string _propertyName = "ShowWatermark";
-        private const double _initOpacity = 0.4D;
+        private const double _initOpacity = 0.3D;
 
         private static bool _isVisible, _hasLoaded;
         private static readonly Dictionary<string, string> _map = new Dictionary<string, string>()
         {
-            { "bower.json", "bower.png"},
-            { "package.json", "npm.png"},
-            { "gruntfile.js", "grunt.png"},
-            { "gulpfile.js", "gulp.png"},
+            {".js", "jw1.jpg" },
+            {".cs", "jw2.jpg" },
+            {".fs", "jw3.jpg" },
+            {".config", "jw4.jpg" },
+            {".md", "jw5.jpg" },
+            {".json", "jw6.jpg" }
         };
 
         [Import]
@@ -64,7 +65,7 @@ namespace Jannine.Watermark.Core
             ITextDocument document;
             if (TextDocumentFactoryService.TryGetTextDocument(textView.TextDataModel.DocumentBuffer, out document))
             {
-                string fileName = Path.GetFileName(document.FilePath).ToLowerInvariant();
+                string fileName = Path.GetExtension(document.FilePath).ToLowerInvariant();
 
                 if (string.IsNullOrEmpty(fileName) || !_map.ContainsKey(fileName))
                     return;

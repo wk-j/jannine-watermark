@@ -38,13 +38,12 @@ namespace Jannine.Watermark.Core
         private void CreateImage(string imageName)
         {
             _adornment = new Image();
-            //_adornment.Source = BitmapFrame.Create(new Uri("pack://application:,,,/Jannine.Watermark;component/_Shared/Resources/Watermarks/" + imageName, UriKind.RelativeOrAbsolute));
-            _adornment.Source = BitmapFrame.Create(new Uri("http://www.jwofficial.com/wp-content/uploads/2013/12/IMG_20823-280x280.jpg"));
+            _adornment.Source = BitmapFrame.Create(new Uri("pack://application:,,,/Jannine.Watermark;component/Shared/Resources/Watermarks/" + imageName, UriKind.RelativeOrAbsolute));
             _adornment.ToolTip = Resource.ClickToToggleVisibility;
             _adornment.Opacity = _currentOpacity;
             _adornment.SetValue(RenderOptions.BitmapScalingModeProperty, BitmapScalingMode.HighQuality);
 
-            _adornment.MouseEnter += (s, e) => { _adornment.Opacity = 1D; };
+            //_adornment.MouseEnter += (s, e) => { _adornment.Opacity = 1D; };
             _adornment.MouseLeave += (s, e) => { _adornment.Opacity = _currentOpacity; };
             _adornment.MouseLeftButtonUp += (s, e) => { OnVisibilityChanged(_currentOpacity == 0); };
         }
@@ -52,8 +51,8 @@ namespace Jannine.Watermark.Core
         private void SetAdornmentLocation(object sender, EventArgs e)
         {
             IWpfTextView view = (IWpfTextView)sender;
-            Canvas.SetLeft(_adornment, view.ViewportRight - _adornment.Source.Width - 20);
-            Canvas.SetTop(_adornment, view.ViewportBottom - _adornment.Source.Height - 20);
+            Canvas.SetLeft(_adornment, view.ViewportRight - _adornment.Source.Width - 10);
+            Canvas.SetTop(_adornment, view.ViewportBottom - _adornment.Source.Height - 10);
         }
 
         public static event EventHandler<bool> VisibilityChanged;
