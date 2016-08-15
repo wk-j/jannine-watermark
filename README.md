@@ -2,7 +2,9 @@
 
 Display watermark in Visual Studio editor.
 
-## Depedencies
+![](Screen/Jannine.Watermark.png)
+
+## Dependencies
 
 ```
 Microsoft.VisualStudio.Shell.14.0
